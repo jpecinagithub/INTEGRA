@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 
 const resendApiKey = process.env.RESEND_API_KEY;
-const toEmail = process.env.RESEND_TO_EMAIL || "integralarioja@gmail.com";
+const toEmail = process.env.RESEND_TO_EMAIL || "jpecina@gmail.com";
 const fromEmail = process.env.RESEND_FROM || "Asociacion Integra <onboarding@resend.dev>";
 
 const resend = new Resend(resendApiKey || "");
