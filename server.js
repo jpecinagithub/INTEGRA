@@ -16,7 +16,7 @@ if (!resendApiKey) {
 const resend = new Resend(resendApiKey || "");
 
 app.use(express.json({ limit: "100kb" }));
-app.use(express.static("."));
+app.use(express.static("public"));
 
 app.post("/api/send", async (req, res) => {
   const { nombre, telefono, servicio, disponibilidad, mensaje } = req.body || {};

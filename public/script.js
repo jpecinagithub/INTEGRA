@@ -92,9 +92,9 @@ revealElements.forEach((element) => {
 
 const heroSlider = document.getElementById("heroSlider");
 const sliderImages = [
-  "/public/images/Generated%20Image%20March%2020%2C%202026%20-%203_55PM.png",
-  "/public/images/Generated%20Image%20March%2020%2C%202026%20-%203_57PM.png",
-  "/public/images/Generated%20Image%20March%2020%2C%202026%20-%203_58PM.png",
+  "/images/Generated%20Image%20March%2020%2C%202026%20-%203_55PM.png",
+  "/images/Generated%20Image%20March%2020%2C%202026%20-%203_57PM.png",
+  "/images/Generated%20Image%20March%2020%2C%202026%20-%203_58PM.png",
 ];
 
 if (heroSlider && sliderImages.length > 0) {
