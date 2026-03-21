@@ -147,7 +147,6 @@ function App() {
             <a href="#clases">Clases</a>
             <a href="#voluntariado">Voluntariado</a>
             <a href="#socios">Socios</a>
-            <a href="#socios">Socios</a>
             <a href="#contacto">Contacto</a>
           </nav>
           <button
