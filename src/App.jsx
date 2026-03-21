@@ -147,7 +147,7 @@ function App() {
             <a href="#clases">Clases</a>
             <a href="#voluntariado">Voluntariado</a>
             <a href="#socios">Socios</a>
-            <a href="#donaciones">Donaciones</a>
+            <a href="#socios">Socios</a>
             <a href="#contacto">Contacto</a>
           </nav>
           <button
@@ -179,8 +179,8 @@ function App() {
             <a href="#socios" onClick={() => setMenuOpen(false)}>
               Socios
             </a>
-            <a href="#donaciones" onClick={() => setMenuOpen(false)}>
-              Donaciones
+            <a href="#socios" onClick={() => setMenuOpen(false)}>
+              Socios
             </a>
             <a href="#contacto" onClick={() => setMenuOpen(false)}>
               Contacto
@@ -427,7 +427,6 @@ function App() {
                 >
                   <option value="">Selecciona</option>
                   <option>Domiciliación bancaria (8,5 €/mes)</option>
-                  <option>Bizum 624 61 09 41 (8,5 €/mes)</option>
                   <option>Abono en sede (20 € cada 4 meses)</option>
                 </select>
               </label>
@@ -452,26 +451,6 @@ function App() {
           </div>
         </section>
 
-        <section id="donaciones" className="section alt">
-          <div className="section-header">
-            <h2>Donaciones</h2>
-            <p>Apoya la atención gratuita con aportaciones voluntarias.</p>
-          </div>
-          <div className="grid services">
-            <article className="card">
-              <h3>Bizum</h3>
-              <p>Envía tu aportación al 624 61 09 41.</p>
-              <p className="note">Indica el concepto: Donación.</p>
-            </article>
-            <article className="card">
-              <h3>Contacto directo</h3>
-              <p>Si necesitas otra forma de aportar, escríbenos por WhatsApp.</p>
-              <a className="btn btn-ghost" href="https://wa.me/34624610941">
-                Consultar por WhatsApp
-              </a>
-            </article>
-          </div>
-        </section>
 
         <section id="contacto" className="section">
           <div className="section-header">
