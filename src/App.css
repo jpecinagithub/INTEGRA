@@ -221,6 +221,13 @@ a {
   gap: 18px;
 }
 
+.split {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  align-items: start;
+}
+
 .services {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }

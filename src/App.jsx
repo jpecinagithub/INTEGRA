@@ -12,7 +12,9 @@ const helpMessages = {
     "Describe el trámite o la ayuda que necesitas para preparar la cita.",
   "Inscripción a clases":
     "Indica tu nivel aproximado (A0, A1, A2) si lo conoces.",
-  "Voluntariado o colaborar":
+  "Búsqueda de empleo":
+    "Cuéntanos tu experiencia, tipo de trabajo y disponibilidad.",
+  Voluntariado:
     "Cuéntanos en qué te gustaría colaborar y disponibilidad.",
   "Derivación institucional": "Indica la entidad y un teléfono de contacto.",
   Otro: "Describe brevemente tu solicitud.",
@@ -22,6 +24,10 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
   const [tipoSolicitud, setTipoSolicitud] = useState("");
+  const [tipoVoluntariado, setTipoVoluntariado] = useState("");
+  const [memberPaymentMethod, setMemberPaymentMethod] = useState("");
+  const [memberStatus, setMemberStatus] = useState("");
+  const [memberSending, setMemberSending] = useState(false);
   const [status, setStatus] = useState("");
   const [sending, setSending] = useState(false);
 
@@ -47,9 +53,11 @@ function App() {
     const form = event.currentTarget;
     const formData = new FormData(form);
     const payload = {
+      formType: "Solicitud general",
       nombre: formData.get("nombre") || "",
       telefono: formData.get("telefono") || "",
       servicio: formData.get("servicio") || "",
+      tipoVoluntariado: formData.get("tipoVoluntariado") || "",
       disponibilidad: formData.get("disponibilidad") || "",
       mensaje: formData.get("mensaje") || "",
     };
@@ -68,6 +76,7 @@ function App() {
 
       form.reset();
       setTipoSolicitud("");
+      setTipoVoluntariado("");
       setStatus("Solicitud enviada. Te responderemos lo antes posible.");
     } catch (error) {
       const message =
@@ -77,6 +86,50 @@ function App() {
       setStatus(message);
     } finally {
       setSending(false);
+    }
+  };
+
+  const handleMemberSubmit = async (event) => {
+    event.preventDefault();
+    setMemberSending(true);
+    setMemberStatus("Enviando solicitud de socio...");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const payload = {
+      formType: "Socios",
+      nombre: formData.get("memberNombre") || "",
+      telefono: formData.get("memberTelefono") || "",
+      email: formData.get("memberEmail") || "",
+      documento: formData.get("memberDocumento") || "",
+      domicilio: formData.get("memberDomicilio") || "",
+      pago: formData.get("memberPago") || "",
+      iban: formData.get("memberIban") || "",
+    };
+
+    try {
+      const response = await fetch("/api/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || "No se pudo enviar la solicitud.");
+      }
+
+      form.reset();
+      setMemberPaymentMethod("");
+      setMemberStatus("Solicitud de socio enviada. Te contactaremos pronto.");
+    } catch (error) {
+      const message =
+        error instanceof Error && error.message
+          ? error.message
+          : "No se pudo enviar la solicitud. Inténtalo más tarde.";
+      setMemberStatus(message);
+    } finally {
+      setMemberSending(false);
     }
   };
 
@@ -92,7 +145,9 @@ function App() {
             <a href="#ayuda">Ayuda</a>
             <a href="#solicitud">Solicitar</a>
             <a href="#clases">Clases</a>
-            <a href="#colabora">Colabora</a>
+            <a href="#voluntariado">Voluntariado</a>
+            <a href="#socios">Socios</a>
+            <a href="#donaciones">Donaciones</a>
             <a href="#contacto">Contacto</a>
           </nav>
           <button
@@ -118,8 +173,14 @@ function App() {
             <a href="#clases" onClick={() => setMenuOpen(false)}>
               Clases
             </a>
-            <a href="#colabora" onClick={() => setMenuOpen(false)}>
-              Colabora
+            <a href="#voluntariado" onClick={() => setMenuOpen(false)}>
+              Voluntariado
+            </a>
+            <a href="#socios" onClick={() => setMenuOpen(false)}>
+              Socios
+            </a>
+            <a href="#donaciones" onClick={() => setMenuOpen(false)}>
+              Donaciones
             </a>
             <a href="#contacto" onClick={() => setMenuOpen(false)}>
               Contacto
@@ -234,12 +295,29 @@ function App() {
                 <option value="">Selecciona</option>
                 <option>Cita de asesoría</option>
                 <option>Inscripción a clases</option>
-                <option>Voluntariado o colaborar</option>
+                <option>Búsqueda de empleo</option>
+                <option>Voluntariado</option>
                 <option>Derivación institucional</option>
                 <option>Otro</option>
               </select>
             </label>
             <p className="form-help">{currentHelp}</p>
+            {tipoSolicitud === "Voluntariado" && (
+              <label>
+                Tipo de voluntariado
+                <select
+                  name="tipoVoluntariado"
+                  value={tipoVoluntariado}
+                  onChange={(event) => setTipoVoluntariado(event.target.value)}
+                  required
+                >
+                  <option value="">Selecciona</option>
+                  <option>Acompañamiento en gestiones administrativas</option>
+                  <option>Clases de español</option>
+                  <option>Orientación para el empleo</option>
+                </select>
+              </label>
+            )}
             <label>
               Nombre y apellidos
               <input type="text" name="nombre" placeholder="Tu nombre" required />
@@ -271,24 +349,125 @@ function App() {
           </form>
         </section>
 
-        <section id="colabora" className="section alt">
+        <section id="voluntariado" className="section alt">
           <div className="section-header">
-            <h2>Colabora con Integra</h2>
-            <p>Buscamos voluntariado y apoyo para mantener los servicios gratuitos.</p>
+            <h2>Voluntariado</h2>
+            <p>Personas con perfil social, educativo o administrativo.</p>
           </div>
           <div className="grid services">
             <article className="card">
               <h3>Voluntariado</h3>
-              <p>Personas con perfil social, educativo o administrativo.</p>
-              <a className="btn btn-ghost" href="#contacto">
+              <p>Acompañamiento en gestiones, clases de español u orientación laboral.</p>
+              <a className="btn btn-ghost" href="#solicitud">
                 Quiero ser voluntario
               </a>
             </article>
+          </div>
+        </section>
+
+        <section id="socios" className="section">
+          <div className="section-header">
+            <h2>Socios</h2>
+            <p>Cuota solidaria para sostener la atención gratuita.</p>
+          </div>
+          <div className="split">
+            <div>
+              <ul className="list">
+                <li>
+                  <strong>Servicios adicionales para socios:</strong> tramitación de
+                  expedientes de extranjería (regularización, reagrupación familiar,
+                  permisos de residencia y trabajo, cartas de invitación, solicitud de
+                  nacionalidad, preparación DELE y CCSE, gestión de ayudas y subvenciones, etc.).
+                </li>
+                <li>
+                  <strong>Usuarios:</strong> orientación y acompañamiento en gestiones.
+                </li>
+                <li>
+                  <strong>Socios:</strong> gestión de trámites tras representación firmada.
+                </li>
+                <li>
+                  <strong>Cuota:</strong> 8,5 € al mes.
+                </li>
+                <li>
+                  <strong>Abono en sede (sin cuenta bancaria):</strong> 20 € cada 4 meses.
+                </li>
+                <li>
+                  <strong>Nota:</strong> no hay precios por servicio, solo la cuota.
+                </li>
+              </ul>
+            </div>
+            <form className="form" onSubmit={handleMemberSubmit}>
+              <label>
+                Nombre y apellidos
+                <input type="text" name="memberNombre" required />
+              </label>
+              <label>
+                DNI / NIE / Pasaporte
+                <input type="text" name="memberDocumento" required />
+              </label>
+              <label>
+                Domicilio
+                <input type="text" name="memberDomicilio" required />
+              </label>
+              <label>
+                Teléfono
+                <input type="tel" name="memberTelefono" required />
+              </label>
+              <label>
+                Email
+                <input type="email" name="memberEmail" required />
+              </label>
+              <label>
+                Forma de pago
+                <select
+                  name="memberPago"
+                  value={memberPaymentMethod}
+                  onChange={(event) => setMemberPaymentMethod(event.target.value)}
+                  required
+                >
+                  <option value="">Selecciona</option>
+                  <option>Domiciliación bancaria (8,5 €/mes)</option>
+                  <option>Bizum 624 61 09 41 (8,5 €/mes)</option>
+                  <option>Abono en sede (20 € cada 4 meses)</option>
+                </select>
+              </label>
+              <p className="form-help">
+                El abono en sede está pensado para personas sin cuenta bancaria.
+              </p>
+              {memberPaymentMethod === "Domiciliación bancaria (8,5 €/mes)" && (
+                <label>
+                  Datos bancarios (IBAN)
+                  <input type="text" name="memberIban" required />
+                </label>
+              )}
+              <label className="checkbox">
+                <input type="checkbox" required />
+                Acepto el tratamiento de datos para gestionar el alta de socio.
+              </label>
+              <button className="btn btn-primary" type="submit" disabled={memberSending}>
+                {memberSending ? "Enviando..." : "Solicitar alta de socio"}
+              </button>
+              {memberStatus && <p className="form-status">{memberStatus}</p>}
+            </form>
+          </div>
+        </section>
+
+        <section id="donaciones" className="section alt">
+          <div className="section-header">
+            <h2>Donaciones</h2>
+            <p>Apoya la atención gratuita con aportaciones voluntarias.</p>
+          </div>
+          <div className="grid services">
             <article className="card">
-              <h3>Socios y donaciones</h3>
-              <p>Tu apoyo mantiene la gratuidad para quienes más lo necesitan.</p>
-              <a className="btn btn-ghost" href="#contacto">
-                Hacer una aportación
+              <h3>Bizum</h3>
+              <p>Envía tu aportación al 624 61 09 41.</p>
+              <p className="note">Indica el concepto: Donación.</p>
+            </article>
+            <article className="card">
+              <h3>Contacto directo</h3>
+              <p>Si necesitas otra forma de aportar, escríbenos por WhatsApp.</p>
+              <a className="btn btn-ghost" href="https://wa.me/34624610941">
+                Consultar por WhatsApp
               </a>
             </article>
           </div>
@@ -304,7 +483,7 @@ function App() {
             <p>c/ La Ribera, 3 · 1ºA · Logroño</p>
             <p>WhatsApp: 624 61 09 41</p>
             <p>Email: integralarioja@gmail.com</p>
-            <p>Horario sugerido: mañana (10:00 - 13:00)</p>
+            <p>Horario sugerido: mañana (11:15 - 13:45)</p>
             <a className="btn btn-outline" href="https://wa.me/34624610941">
               Abrir WhatsApp
             </a>

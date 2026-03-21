@@ -24,20 +24,50 @@ export default async function handler(req, res) {
     }
   }
 
-  const { nombre, telefono, servicio, disponibilidad, mensaje } = body || {};
+  const {
+    formType,
+    nombre,
+    telefono,
+    email,
+    documento,
+    domicilio,
+    pago,
+    iban,
+    servicio,
+    tipoVoluntariado,
+    disponibilidad,
+    mensaje,
+  } = body || {};
 
-  if (!nombre || !telefono || !servicio) {
-    return res.status(400).json({ error: "Faltan campos obligatorios." });
+  const isMember = formType === "Socios";
+
+  if (isMember) {
+    if (!nombre || !telefono || !email || !documento || !domicilio || !pago) {
+      return res.status(400).json({ error: "Faltan campos obligatorios." });
+    }
+  } else {
+    if (!nombre || !telefono || !servicio) {
+      return res.status(400).json({ error: "Faltan campos obligatorios." });
+    }
   }
 
-  const text = [
-    "Solicitud de Asociacion Integra",
-    `Nombre: ${nombre}`,
-    `Telefono: ${telefono}`,
-    `Tipo de solicitud: ${servicio}`,
-    `Disponibilidad: ${disponibilidad || "-"}`,
-    `Mensaje: ${mensaje || "-"}`,
-  ].join("\n");
+  const lines = ["Solicitud de Asociacion Integra"];
+  if (formType) {
+    lines.push(`Formulario: ${formType}`);
+  }
+  lines.push(`Nombre: ${nombre}`);
+  lines.push(`Telefono: ${telefono}`);
+  if (email) lines.push(`Email: ${email}`);
+  if (documento) lines.push(`Documento: ${documento}`);
+  if (domicilio) lines.push(`Domicilio: ${domicilio}`);
+  if (pago) lines.push(`Forma de pago: ${pago}`);
+  if (iban) lines.push(`IBAN: ${iban}`);
+  if (servicio) lines.push(`Tipo de solicitud: ${servicio}`);
+  if (tipoVoluntariado) lines.push(`Tipo de voluntariado: ${tipoVoluntariado}`);
+  if (disponibilidad) lines.push(`Disponibilidad: ${disponibilidad}`);
+  if (mensaje) lines.push(`Mensaje: ${mensaje}`);
+
+  const text = lines.join("\n");
 
   try {
     const result = await resend.emails.send({
