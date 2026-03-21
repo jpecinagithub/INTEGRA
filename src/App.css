@@ -195,6 +195,7 @@ a {
 
 .section {
   padding: 70px 6vw;
+  scroll-margin-top: 110px;
 }
 
 .section.alt {
