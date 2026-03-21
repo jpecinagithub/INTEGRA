@@ -174,9 +174,6 @@ function App() {
             <a href="#socios" onClick={() => setMenuOpen(false)}>
               Socios
             </a>
-            <a href="#socios" onClick={() => setMenuOpen(false)}>
-              Socios
-            </a>
             <a href="#contacto" onClick={() => setMenuOpen(false)}>
               Contacto
             </a>
