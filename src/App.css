@@ -90,14 +90,6 @@ a {
   color: var(--navy);
 }
 
-.mobile-menu {
-  display: grid;
-  gap: 10px;
-  padding: 12px 6vw 18px;
-  background: var(--white);
-  border-bottom: 1px solid rgba(7, 28, 45, 0.08);
-}
-
 .btn {
   display: inline-flex;
   align-items: center;
@@ -342,9 +334,16 @@ a {
 @media (max-width: 900px) {
   .nav-links {
     display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 0 6px;
   }
   .menu-button {
     display: inline-flex;
+  }
+  .nav-links.is-open {
+    display: flex;
   }
 }
 

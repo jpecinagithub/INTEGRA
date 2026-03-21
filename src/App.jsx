@@ -141,27 +141,7 @@ function App() {
             <span className="logo-mark">INTEGRA</span>
             <span className="logo-sub">Asociación</span>
           </div>
-          <nav className="nav-links">
-            <a href="#ayuda">Ayuda</a>
-            <a href="#clases">Clases</a>
-            <a href="#voluntariado">Voluntariado</a>
-            <a href="#socios">Socios</a>
-            <a href="#contacto">Contacto</a>
-          </nav>
-          <button
-            className="menu-button"
-            onClick={() => setMenuOpen((open) => !open)}
-            aria-expanded={menuOpen}
-            aria-controls="mobileMenu"
-          >
-            Menú
-          </button>
-          <a className="btn btn-ghost" href="#solicitud">
-            Solicitar
-          </a>
-        </div>
-        {menuOpen && (
-          <div className="mobile-menu" id="mobileMenu">
+          <nav className={`nav-links ${menuOpen ? "is-open" : ""}`}>
             <a href="#ayuda" onClick={() => setMenuOpen(false)}>
               Ayuda
             </a>
@@ -177,8 +157,19 @@ function App() {
             <a href="#contacto" onClick={() => setMenuOpen(false)}>
               Contacto
             </a>
-          </div>
-        )}
+          </nav>
+          <button
+            className="menu-button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-controls="mobileMenu"
+          >
+            Menú
+          </button>
+          <a className="btn btn-ghost" href="#solicitud">
+            Solicitar
+          </a>
+        </div>
       </header>
 
       <main>
