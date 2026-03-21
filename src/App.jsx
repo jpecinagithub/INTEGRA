@@ -143,7 +143,6 @@ function App() {
           </div>
           <nav className="nav-links">
             <a href="#ayuda">Ayuda</a>
-            <a href="#solicitud">Solicitar</a>
             <a href="#clases">Clases</a>
             <a href="#voluntariado">Voluntariado</a>
             <a href="#socios">Socios</a>
@@ -165,9 +164,6 @@ function App() {
           <div className="mobile-menu" id="mobileMenu">
             <a href="#ayuda" onClick={() => setMenuOpen(false)}>
               Ayuda
-            </a>
-            <a href="#solicitud" onClick={() => setMenuOpen(false)}>
-              Solicitar
             </a>
             <a href="#clases" onClick={() => setMenuOpen(false)}>
               Clases
