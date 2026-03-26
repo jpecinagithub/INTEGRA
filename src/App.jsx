@@ -176,7 +176,7 @@ function App() {
         <section className="hero">
           <div className="hero-content">
             <p className="eyebrow">Logroño · La Rioja</p>
-            <h1>Apoyo cercano y gratuito para personas inmigrantes.</h1>
+            <h1>Apoyo cercano y gratuito para personas vulnerables y/o inmigrantes.</h1>
             <p className="lead">
               Orientamos en trámites con la Administración Pública, clases de español,
               empleo y recursos sociales.
@@ -438,7 +438,10 @@ function App() {
         <section id="contacto" className="section">
           <div className="section-header">
             <h2>Contacto</h2>
-            <p>Estamos en Logroño. Sede provisional con cita previa.</p>
+            <p>
+              Por limitación de espacio en la sede provisional solo con cita previa en el
+              teléfono o WhatsApp indicados.
+            </p>
           </div>
           <div className="contact-card">
             <h3>Asociación Integra</h3>

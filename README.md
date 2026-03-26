@@ -1,16 +1,21 @@
-# React + Vite
+# Integra Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Single-page site for Asociacion Integra (Vite + React) with a serverless contact endpoint for Vercel.
 
-Currently, two official plugins are available:
+## Local development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Frontend (Vite):
+  - `npm install`
+  - `npm run dev`
+- API (Vercel dev server):
+  - `vercel dev`
 
-## React Compiler
+The Vite dev server proxies `/api/*` to `http://localhost:3000` so the frontend can call the serverless function while `vercel dev` is running.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Serverless API
 
-## Expanding the ESLint configuration
+The serverless endpoint lives at `api/send.js` and expects the following env vars:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `RESEND_API_KEY`
+- `RESEND_TO_EMAIL`
+- `RESEND_FROM`
